@@ -645,3 +645,65 @@ class UniBicoccaScraper:
                 dimensione = percorso.stat().st_size
                 dimensione_mb = dimensione / 1024 / 1024
                 if dimensione_mb > 1:
+                    self.logger.info(f"   {nome}: {percorso.name} ({dimensione_mb:.1f} MB)")
+                else:
+                    dimensione_kb = dimensione / 1024
+                    self.logger.info(f"   {nome}: {percorso.name} ({dimensione_kb:.1f} KB)")
+            else:
+                self.logger.info(f"   {nome}: {percorso.name} (non creato)")
+        
+        self.logger.info("=" * 70)
+        self.logger.info("🎉 SCRAPING COMPLETATO")
+        self.logger.info("=" * 70)
+
+
+def main():
+    """Funzione principale per l'esecuzione dello script"""
+    print("🎓 UniBicocca Scraper - Avvio...")
+    print("=" * 50)
+    
+    try:
+        # Inizializza lo scraper
+        scraper = UniBicoccaScraper()
+        
+        # Esegui lo scraping completo
+        scraper.esegui_scraping_completo()
+        
+        print("\n✅ Esecuzione completata con successo!")
+        print(f"📁 Risultati salvati in: {scraper.output_dir}")
+        
+        if scraper.config.get("create_latest_symlink", True):
+            print(f"🔗 Link rapido: {scraper.latest_dir}")
+            
+    except KeyboardInterrupt:
+        print("\n⚠️ Scraping interrotto dall'utente (Ctrl+C)")
+        return 1
+    except Exception as e:
+        print(f"\n💥 Errore critico: {e}")
+        import traceback
+        traceback.print_exc()
+        return 1
+    
+    return 0
+
+
+if __name__ == "__main__":
+    """Entry point dello script"""
+    import sys
+    
+    # Controlla versione Python minima
+    if sys.version_info < (3, 7):
+        print("❌ Errore: Python 3.7 o superiore richiesto")
+        sys.exit(1)
+    
+    # Controlla dipendenze critiche
+    try:
+        import requests
+        import bs4
+    except ImportError as e:
+        print(f"❌ Errore: Dipendenza mancante - {e}")
+        print("💡 Installa le dipendenze con: pip install requests beautifulsoup4")
+        sys.exit(1)
+    
+    # Esegui il programma
+    sys.exit(main())
