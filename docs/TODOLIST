@@ -1,0 +1,18 @@
+TODO LIST:
+
+-Fase di test
+
+	-controllo completezza fonti
+		-quanti studi rispetto al DB di ateneo?
+		-quanti autori rispetto a quelli del DB di ateneo?
+		-quanti dipendenti rispetto alla rubrica MIUR scrivono?
+
+	-Estrazione dati testing:
+		-insegnamenti POLIMI
+		-autori polimi
+		-works polimi
+		-paper IEEE polimi
+
+	-fare il matching dei prof UNIMIB e POLIMI in authors_OA_test e in rubrica MIUR. Controllare quanti ce ne sono.
+
+-join tra institution_OA_it, AteneiMIUR e Rubrica in modo da avere ror e id su quelle. Serve fare fuzzy tra OA e AteneiMIUR sul campo nome completo

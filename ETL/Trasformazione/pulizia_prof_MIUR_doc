@@ -1,0 +1,8 @@
+-analisi duplicati:
+	-veri duplicati: stesso nome, ateneo, settore, contratti diversi: 28 casi.
+		-rimossa una entry
+	-stesso nome, stesso settore, atenei diversi: 38 casi. 
+		-lasciati, non risultano tra essi persone che fanno servizio in più atenei. Si assume siano persone diverse. Volendo impuntarsi, si potrebbe controllare fattibilità geografica.
+
+Ora Nome e Cognome, Ateneo, GSD 2024 sono chiave dei record di questa tabella.
+
