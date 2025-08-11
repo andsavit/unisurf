@@ -1,3 +1,9 @@
+import requests
+import json
+from pathlib import Path
+import pandas as pd
+import os
+
 def scarica_authors_OA():
 
     input_file = "ETL/TabellePonte/ponte_OA_MIUR_test"
