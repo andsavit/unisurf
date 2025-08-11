@@ -9,7 +9,6 @@ from typing import List
 import pandas as pd
 import csv
 
-
 @dataclass
 class Insegnamento:
     
