@@ -27,6 +27,7 @@ def scarica_works_OA():
         "errors": []
     }
     
+    print("="*20)
     print(f"Inizio estrazione per {len(df)} università...")
     
     # Apri il file di output una sola volta

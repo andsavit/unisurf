@@ -1,0 +1,43 @@
+# Connessione SSH - ISTANZA EC2
+
+ssh -i "Downloads/coppia.pem" ec2-user@13.217.237.104
+
+ssh -i "coppia.pem" ec2-user@ec2-3-85-215-43.compute-1.amazonaws.com
+
+# Setup Istanza
+
+## Aggiorna il sistema
+
+sudo yum update -y
+
+## Installa Python 3.11+ e pip
+
+sudo yum install -y python3 python3-pip git
+
+## Verifica versioni
+python3 --version
+pip3 --version
+
+## Vai nella home directory
+cd ~
+
+## Clona il repository (sostituisci con il tuo URL)
+git clone https://github.com/andsavit/unisurf.git
+
+## Entra nella directory
+cd unisurf/
+
+## Crea virtual environment
+python3 -m venv venv
+
+## Attiva l'ambiente
+source venv/bin/activate
+
+## Installa dipendenze
+pip install -r requirements.txt
+
+# Vai nella directory dello scraper
+cd Ingestion/Scraper/Corsi/Unimib/
+
+# Crea/modifica il config (se necessario)
+nano scraper_config.json
