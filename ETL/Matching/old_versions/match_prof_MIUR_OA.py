@@ -12,7 +12,13 @@ from datetime import datetime
 from rapidfuzz import fuzz
 from rapidfuzz.fuzz import token_set_ratio
 from tqdm import tqdm
+import logging
+import gc
 
+"""
+Script che segue il matching dei nomi dei professori nella lista MIUR con gli autori OpenAlex. 
+Il matching avviene separatamente per ogni università a cui risultano associati i professori dalla lista MIUR e in OpenAlex.
+"""
 
 from matching_functionsV3 import (
     calculate_name_score, 
@@ -21,7 +27,6 @@ from matching_functionsV3 import (
     parse_professor_name,
     parse_author_name
 )
-
 
 # CONFIGURATION
 RUBRICA_CSV = "data/tabelle/RubricaMIURStatEnriched.csv"
@@ -36,17 +41,15 @@ LOW_THRESHOLD = 0.6
 
 #FUNCTIONS
 
-def leggi_dati_rubrica():
-
-    file_prof = RUBRICA_CSV
-
-    prof_miur = pd.read_csv(file_prof, sep=',')
-
-    prof_data = prof_miur[['id', 'Cognome e Nome', 'ror', 'id_oa']]
-
-    print(prof_data.head(5))
-
 def get_authors_by_institution_id(institution_id, collection):
+    """
+    Ottiene gli autori associati ad un institution_id tramite query Mongo
+
+    Args:
+        id_istituzioneOpenAlex, collection in cui cercare gli autori
+    Returns:
+        Un dizionario che ha come chiave l'id OpenAlex dell'autore e i campi di interesse per il matching
+    """
     pipeline = [
         {"$unwind": "$affiliations"},
         {"$match": {"affiliations.institution.id": institution_id}},
@@ -66,16 +69,17 @@ def get_authors_by_institution_id(institution_id, collection):
             author_id = doc.get("id")
             if not author_id:
                 continue
-                
+
+            """Disabilitate per motivi di performance
             alternatives = doc.get("display_name_alternatives", [])
             if not isinstance(alternatives, list):
                 alternatives = []
-            
+            """    
             authors_dict[author_id] = {
                 "id": author_id,
                 "orcid": doc.get("orcid"),
                 "display_name": doc.get("display_name", ""),
-                "display_name_alternatives": alternatives
+                #"display_name_alternatives": alternatives
             }
         
         print(f"Found {len(authors_dict)} authors for institution {institution_id}")
@@ -111,7 +115,7 @@ def get_mongo_collection():
 
 def load_professor_stack_forid(file_path, id_ateneo):
    """
-   Carica il CSV dei professori e restituisce una lista (stack)
+   Carica il CSV dei professori e restituisce una lista 
    
    Args:
        file_path (str): Percorso del file CSV
@@ -129,7 +133,6 @@ def load_professor_stack_forid(file_path, id_ateneo):
             professor_stack.append({
                 "id": row["id"],
                 "fascia": row["Fascia"],
-                "cognome": row["Cognome e Nome"],  # O row["Cognome"] se separato
                 "nome_completo": row["Cognome e Nome"],
                 "ateneo": row["Ateneo"],
                 "id_oa_ateneo": row["id_oa"]
@@ -143,31 +146,21 @@ def load_professor_stack_forid(file_path, id_ateneo):
        return []
 
 def get_university_list():
+   """Legge il file con la lista di università per ottenere gli id OpenAlex da usare nella query mongo di ricerca di autori"""
    df = pd.read_csv(RUBRICA_CSV)
    return df['id_oa'].dropna().unique().tolist()
-
-def matching_algorithm(prof, oa_authors):
-
-    name = prof.get('cognome')
-
-
-
-    print(f"Eseguo Match di {name}")
 
 def main_professor_matcher():
 
     setup_mongo_connection()  # inizializza la connessione al DB Mongo
     atenei_id = get_university_list()  # legge la lista di atenei dal CSV Miur
-    
-    # Prepara il file CSV di output
-    output_filename = OUTPUT_FILE
-    
+        
     # Apri il file CSV in modalità append per scrivere man mano
-    with open(output_filename, 'w', newline='', encoding='utf-8') as csvfile:
+    with open(OUTPUT_FILE, 'w', newline='', encoding='utf-8') as csvfile:
         fieldnames = [
             'ateneo_id', 
             'score', 
-            'cognome_rubrica', 
+            #'nominativo_rubrica', 
             'nome_completo_rubrica',
             'display_name_openalex', 
             'author_id_openalex', 
@@ -176,6 +169,9 @@ def main_professor_matcher():
         
         csv_writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         csv_writer.writeheader()
+
+        total_oa_authors = 0
+        total_miur_profs = 0
         
         total_matches = 0
         
@@ -186,6 +182,9 @@ def main_professor_matcher():
                 # Carica dati per questo ateneo
                 professor_stack = load_professor_stack_forid(RUBRICA_CSV, ateneo_id)
                 oa_authors = get_authors_by_institution_id(ateneo_id, get_mongo_collection())
+
+                total_oa_authors += len(oa_authors)
+                total_miur_profs += len(professor_stack)
                 
                 print(f"  Professori trovati: {len(professor_stack)}")
                 print(f"  Autori OpenAlex trovati: {len(oa_authors)}")
@@ -196,8 +195,8 @@ def main_professor_matcher():
                 
                 # Esegui matching
                 all_matches = find_best_matches(professor_stack, oa_authors)
-                final_matches = resolve_matches(all_matches, oa_authors, threshold=75.0)
-                
+                final_matches = resolve_matches(all_matches, oa_authors, threshold=88.0)
+
                 print(f"  Match trovati: {len(final_matches)}")
                 
                 # Scrivi i risultati nel CSV
@@ -205,7 +204,7 @@ def main_professor_matcher():
                     # Trova il professore originale per ottenere nome completo
                     prof_data = None
                     for prof in professor_stack:
-                        if prof.get('cognome') == match['cognome_rubrica']:
+                        if prof.get('nome_completo') == match['nome_completo_rubrica']:
                             prof_data = prof
                             break
                     
@@ -214,7 +213,7 @@ def main_professor_matcher():
                     row = {
                         'ateneo_id': ateneo_id,
                         'score': f"{match['score']:.2f}",
-                        'cognome_rubrica': match['cognome_rubrica'],
+                        #'nominativo_rubrica': match['nominativo_rubrica'],
                         'nome_completo_rubrica': nome_completo_rubrica,
                         'display_name_openalex': match['display_name'],
                         'author_id_openalex': match['author_id'],
@@ -228,6 +227,16 @@ def main_professor_matcher():
                 csvfile.flush()
                 
                 print(f"Completato ateneo {ateneo_id} - {len(final_matches)} match salvati")
+
+                # Cleanup esplicito dei dati di ateneo per performance
+                del professor_stack
+                del oa_authors  
+                del all_matches
+                del final_matches
+
+                # Garbage collection forzato
+                
+                gc.collect()
                 
             except Exception as e:
                 print(f"Errore nell'elaborazione dell'ateneo {ateneo_id}: {e}")
@@ -236,8 +245,11 @@ def main_professor_matcher():
         print(f"\n🎉 ELABORAZIONE COMPLETATA!")
         print(f"📊 Statistiche finali:")
         print(f"   Atenei elaborati: {len(atenei_id)}")
+        print(f"   Prof totali trovati OA: {total_oa_authors}")
+        print(f"   Prof totali trovati MIUR: {total_miur_profs}")
         print(f"   Match totali trovati: {total_matches}")
-        print(f"   File di output: {output_filename}")
+        #print(f"   Percentuali prof MIUR matchati: {(total_miur_profs/(total_matches if  * 100)}")
+        print(f"   File di output: {OUTPUT_FILE}")
 
 # USAGE 
 

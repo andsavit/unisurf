@@ -7,9 +7,14 @@ from rapidfuzz.fuzz import token_set_ratio
 from tqdm import tqdm
 
 
+
 # NOTA: Per versioni recenti di RapidFuzz (>= 2.0)
 # JaroWinkler è stato spostato da rapidfuzz.fuzz a rapidfuzz.distance
 # Se usi una versione più vecchia, usa: from rapidfuzz.fuzz import jaro_winkler
+
+#SETUP VARIABILI
+SCORE_APPEND_THRESHOLD = 40 #score minimo per essere aggiunti alla lista di score
+THRESHOLD_RESOLVE = 88.0
 
 # Parsing 
 def parse_professor_name(prof_tokens):
@@ -75,7 +80,7 @@ def parse_author_name(author_tokens):
     #caso frequente
     if is_initial(author_tokens[0]) and len(author_tokens) == 2:
         return extract_initial(author_tokens[0]), author_tokens[1]
-    elif len(author_tokens) == 2:
+    elif len(author_tokens) == 2: #caso Nome Cognome
         return author_tokens[0], author_tokens[1]
     elif len(author_tokens) > 6:
         return "",""
@@ -259,9 +264,11 @@ def calculate_first_name_score(prof_nome, author_first):
     author_first_norm = normalize_name(author_first).upper()
     jaro_score = JaroWinkler.similarity(prof_nome_norm, author_first_norm) * 100
     
-    # Bonus per abbreviazioni comuni
+    """
+    # Bonus per abbreviazioni comuni - disabilitato per performance
     if check_common_abbreviations(prof_nome, author_first):
         jaro_score = min(100, jaro_score + 10)
+    """
     
     return jaro_score
 
@@ -287,7 +294,7 @@ def find_best_matches(professors, authors_dict):
             display_name = author_data.get('display_name', '')
             score = calculate_name_score(prof_name, display_name)
             
-            if score > 0:
+            if score > SCORE_APPEND_THRESHOLD:
                 all_matches.append((score, prof, author_id, 'display_name'))
             """
             # Score con alternatives
@@ -306,14 +313,14 @@ def find_best_matches(professors, authors_dict):
     
     return all_matches
 
-def resolve_matches(all_matches, authors_dict, threshold=75.0):
+def resolve_matches(all_matches, authors_dict, THRESHOLD_RESOLVE):
     """
     Risolve i match evitando conflitti (1-to-1 mapping)
     
     Args:
         all_matches (list): Lista di match ordinata per score
         authors_dict (dict): Dizionario autori per recuperare i dati
-        threshold (float): Score minimo per considerare un match valido
+        THRESHOLD_RESOLVE (float): Score minimo per considerare un match valido
     
     Returns:
         list: Lista di match finali con campi richiesti
@@ -323,7 +330,7 @@ def resolve_matches(all_matches, authors_dict, threshold=75.0):
     used_authors = set()
     
     for score, prof, author_id, match_type in all_matches:
-        if score < threshold:
+        if score < THRESHOLD_RESOLVE:
             break  # Tutti i successivi avranno score ancora più basso
         
         prof_id = prof.get('id')
@@ -336,7 +343,7 @@ def resolve_matches(all_matches, authors_dict, threshold=75.0):
             # Salva i campi richiesti
             match_result = {
                 'score': score,
-                'cognome_rubrica': prof.get('cognome'),  # cognome dalla rubrica
+                'nome_completo_rubrica': prof.get('nome_completo'),  # nominativo dalla rubrica
                 'display_name': author_data.get('display_name'),  # display_name autore
                 'author_id': author_id,  # id autore
                 'orcid': author_data.get('orcid')  # orcid autore

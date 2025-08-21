@@ -1,0 +1,76 @@
+id;score;prof_name;author_name;score_band;result
+1;100.0;NICOLIS Silvia Kirsten;Silvia K. Nicolis;Score 100 (SOSPETTI);C
+2;94.0;D'ITRIA Erminia;Erminia D’Itria;Score 85-94;C
+3;100.0;CHIFFI Daniele;Daniele Chiffi;Score 100 (SOSPETTI);C
+4;100.0;CROCE Alessandro;Alessandro Croce;Score 100 (SOSPETTI);C
+5;95.7;HESSELBEIN Christopher Lorenz;Chris Hesselbein;Score 95-99;C
+6;90.9;BOERI Stefano;Stefano Boriero;Score 85-94;W
+7;100.0;MARONGIU Laura;Laura Marongiu;Score 100 (SOSPETTI);C
+8;100.0;BRESCIANI Sabrina;Sabrina Bresciani;Score 100 (SOSPETTI);C
+9;81.4;SEMEGHINI Danilo;D. Pellegrini;Score 75-84;W
+10;88.2;CAPITTA Anna Maria;A Capra;Score 85-94;W
+11;96.7;NAIMZADA Ahmad Kabir;Ahmad Naimzada;Score 95-99;C
+12;97.0;BENGALLI Rossella Daniela;Rossella Bengalli;Score 95-99;C
+13;98.5;GIBERTINI Giuseppe;G. Gibertini;Score 95-99;C
+14;100.0;GARAVELLO Mauro;Mauro Garavello;Score 100 (SOSPETTI);C
+15;100.0;SOLIDORO Adriano;Adriano Solidoro;Score 100 (SOSPETTI);C
+16;100.0;DE FALCO Carlo;Carlo de Falco;Score 100 (SOSPETTI);C
+17;100.0;LAVITRANO Marialuisa;Marialuisa Lavitrano;Score 100 (SOSPETTI);C
+18;96.1;PIAZZA Rocco Giovanni;Rocco Piazza;Score 95-99;C
+19;94.8;D'OVIDIO Marianna;Marianna d’Ovidio;Score 85-94;C
+20;76.2;SOSA NAVARRO Marta Maria;M. Scaravaglio;Score 75-84;W
+21;98.5;GALIMBERTI Maurizio Stefano;M. Galimberti;Score 95-99;C
+22;98.5;GRASSI Laura;L. Grassi;Score 95-99;C
+23;100.0;COLOMBO Luigi Pietro Maria;Luigi Pietro Maria Colombo;Score 100 (SOSPETTI);C
+24;95.9;FUSI Paola Alessandra;Paola Fusi;Score 95-99;C
+25;97.0;TOSONI Sergio Paolo;Sergio Tosoni;Score 95-99;C
+26;98.5;DRAGHI Lorenza Edvige Giannina;L. Draghi;Score 95-99;C
+27;100.0;PALAZZETTI Roberto;Roberto Palazzetti;Score 100 (SOSPETTI);C
+28;91.5;D'ORSO Marco Italo;M D’Orso;Score 85-94;C
+29;98.5;MAROCCO Luca Davide;L. Marocco;Score 95-99;C
+30;98.5;GASTALDI Matteo Maria;M. Gastaldi;Score 95-99;C
+31;90.7;DUO' Lamberto;Lamberto Du;Score 85-94;U
+32;87.7;SANGALLI Laura Maria;Andrea Sangalli;Score 85-94;W
+33;100.0;CARDANI Luca;Luca Cardani;Score 100 (SOSPETTI);C
+34;86.4;RABAIOTTI Gabriele;Marcello Rabitti;Score 85-94;W
+35;100.0;FERRO Luisa;Luisa Ferro;Score 100 (SOSPETTI);C
+36;84.8;NUZZO Gabriele;Gabriele Izzo;Score 75-84;W
+37;100.0;DELL'AVERSANA Giuseppina;Giuseppina De Giorgio;Score 100 (SOSPETTI);W
+38;86.9;FURLAN Federico;Francesca Furlan;Score 85-94;W
+39;100.0;PELLEGATA Alessandro Filippo Maria;Alessandro Filippo Pellegata;Score 100 (SOSPETTI);C
+40;100.0;NERI Alessandra;Alessandra Neri;Score 100 (SOSPETTI);C
+41;98.5;PATTAVINA Luca Maria;L. Pattavina;Score 95-99;C
+42;100.0;CALDERINI Mario;Mario Calderini;Score 100 (SOSPETTI);C
+43;83.0;CANDIDO Alessandro;Alberto Caponio;Score 75-84;W
+44;100.0;VERANI Marco;Marco Verani;Score 100 (SOSPETTI);C
+45;96.3;VEZZOLI Carlo Arnaldo;Carlo Vezzoli;Score 95-99;C
+46;76.4;KURISINKAL PIOUS Johnpaul;Rosaliya Kurian;Score 75-84;W
+47;87.6;CAPUTO Clementina;C. Capone;Score 85-94;W
+48;97.4;BRUNETTO Domenico Savio;Domenico Brunetto;Score 95-99;W
+49;83.4;PISCITELLI Luigi;Daniele Piscitelli;Score 75-84;W
+50;100.0;DI GIOVANNI Andrea;Andrea Di Giovanni;Score 100 (SOSPETTI);C
+51;100.0;CAMPANELLA Christian;Christian Campanella;Score 100 (SOSPETTI);C
+52;96.2;GARZANTI Eduardo Aldo Franco;Eduardo Garzanti;Score 95-99;C
+53;100.0;QUACQUARELLI Barbara;Barbara Quaquarelli;Score 100 (SOSPETTI);C
+54;96.7;RESMINI Laura Santa;Laura Resmini;Score 95-99;C
+55;100.0;BRUGGI Matteo;Matteo Bruggi;Score 100 (SOSPETTI);C
+56;96.6;COCUZZA Clementina Elvezia Anna;Clementina Cocuzza;Score 95-99;C
+57;83.8;JAKSIC Vojkan;Nebojša Jakica;Score 75-84;U
+58;87.7;PENALOZA NYSSEN Rafael;Rafael Peñaloza;Score 85-94;C
+59;100.0;PERUGINI Marco;Marco Perugini;Score 100 (SOSPETTI);C
+60;98.5;CANTINI Lorenzo;L. Cantini;Score 95-99;C
+61;83.3;DALLABRIDA Mattia;M Mallardo;Score 75-84;W
+62;90.9;RICART CASADEVALL Sandra;Sandra Ricart;Score 85-94;C
+63;79.1;VETTOR Tiziana;Stefano Vittori;Score 75-84;W
+64;98.5;ARANEO Lucio Tiziano;L. Araneo;Score 95-99;C
+65;100.0;CIMINO Chiara;Chiara Cimino;Score 100 (SOSPETTI);C
+66;100.0;OKOYE Chukwuma;Chukwuma Okoye;Score 100 (SOSPETTI);C
+67;91.6;MURO SOLER Carles;Carles Muro;Score 85-94;C
+68;100.0;MANOTTI Jacopo;Jacopo Manotti;Score 100 (SOSPETTI);C
+69;100.0;FIORIN Leandro;Leandro Fiorin;Score 100 (SOSPETTI);C
+70;100.0;LASAGNI Marina;Marina Lasagni;Score 100 (SOSPETTI);C
+71;100.0;GAZZOLA Filippo;Filippo Gazzola;Score 100 (SOSPETTI);C
+72;88.3;OGGIONNI Francesca;Francesca Maggioni;Score 85-94;W
+73;82.5;LAPENNA Annarita;Andrea Penna;Score 75-84;W
+74;100.0;PAGANONI Anna Maria;Anna Maria Paganoni;Score 100 (SOSPETTI);C
+75;89.4;RUSSI Nicola Paolo;Nicoletta Russo;Score 85-94;W
